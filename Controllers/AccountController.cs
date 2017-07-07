@@ -55,5 +55,33 @@ namespace ToDoList.Controllers
 
             return View();
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public JsonResult Login(User model)
+        {
+            string hashedPassword = Encryption.Encrypt(model.Password);
+            string result = "Not logged in";
+            tblUser objtblUser = db.tblUsers.SingleOrDefault(x => x.Email == model.Email && x.Activated == 1 && x.Password == hashedPassword);
+            if(objtblUser!=null)
+            {
+                Session["UserID"] = objtblUser.ID;
+                Session["Name"] = objtblUser.Name;
+                result = "Logged in";
+            }
+
+            return Json(result,JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Logout()
+        {
+
+            Session.Clear();
+            Session.Abandon();
+
+            return RedirectToAction("Login");
+
+        }
     }
 }

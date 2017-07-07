@@ -27,6 +27,15 @@
     </div>
 
     <div class="container body-content">
+
+
+        @if (Session["UserID"] != null)
+        {
+         <p>Welcome :@Session["Name"]  </p>
+         <a href="/Account/Logout">Logout</a>
+        }
+
+
         @RenderBody()
         <hr />
         <footer>
