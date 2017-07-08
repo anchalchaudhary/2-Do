@@ -63,13 +63,13 @@ namespace ToDoList.Controllers
         public JsonResult Login(User model)
         {
             string hashedPassword = Encryption.Encrypt(model.Password);
-            string result = "Not logged in";
+            string result = "false";
             tblUser objtblUser = db.tblUsers.SingleOrDefault(x => x.Email == model.Email && x.Activated == 1 && x.Password == hashedPassword);
             if(objtblUser!=null)
             {
                 Session["UserID"] = objtblUser.ID;
                 Session["Name"] = objtblUser.Name;
-                result = "Logged in";
+                result = "true";
             }
 
             return Json(result,JsonRequestBehavior.AllowGet);

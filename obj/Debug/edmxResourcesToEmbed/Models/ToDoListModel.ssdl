@@ -1,5 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="DBToDoListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblTasks">
+    <Key>
+      <PropertyRef Name="TaskID" />
+    </Key>
+    <Property Name="TaskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID" Type="int" />
+    <Property Name="Title" Type="nvarchar(max)" />
+    <Property Name="TaskDetail" Type="nvarchar(max)" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="StartTime" Type="time" Precision="7" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="EndTime" Type="time" Precision="7" />
+    <Property Name="Completed" Type="int" />
+  </EntityType>
   <EntityType Name="tblUsers">
     <Key>
       <PropertyRef Name="ID" />
@@ -11,7 +25,24 @@
     <Property Name="Password" Type="nvarchar(max)" />
     <Property Name="Activated" Type="int" />
   </EntityType>
+  <Association Name="FK__tblTasks__ID__0519C6AF">
+    <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="0..1" />
+    <End Role="tblTasks" Type="Self.tblTasks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUsers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tblTasks">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="DBToDoListModelStoreContainer">
+    <EntitySet Name="tblTasks" EntityType="Self.tblTasks" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__tblTasks__ID__0519C6AF" Association="Self.FK__tblTasks__ID__0519C6AF">
+      <End Role="tblUsers" EntitySet="tblUsers" />
+      <End Role="tblTasks" EntitySet="tblTasks" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -10,8 +10,41 @@
     <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Activated" Type="Int32" />
+    <NavigationProperty Name="tblTasks" Relationship="DBToDoListModel.FK__tblTasks__ID__0519C6AF" FromRole="tblUser" ToRole="tblTask" />
   </EntityType>
   <EntityContainer Name="DBToDoListEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+    <EntitySet Name="tblTasks" EntityType="DBToDoListModel.tblTask" />
+    <AssociationSet Name="FK__tblTasks__ID__0519C6AF" Association="DBToDoListModel.FK__tblTasks__ID__0519C6AF">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblTask" EntitySet="tblTasks" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="tblTask">
+    <Key>
+      <PropertyRef Name="TaskID" />
+    </Key>
+    <Property Name="TaskID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Int32" />
+    <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TaskDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="StartTime" Type="Time" Precision="7" />
+    <Property Name="EndDate" Type="DateTime" Precision="0" />
+    <Property Name="EndTime" Type="Time" Precision="7" />
+    <Property Name="Completed" Type="Int32" />
+    <NavigationProperty Name="tblUser" Relationship="DBToDoListModel.FK__tblTasks__ID__0519C6AF" FromRole="tblTask" ToRole="tblUser" />
+  </EntityType>
+  <Association Name="FK__tblTasks__ID__0519C6AF">
+    <End Type="DBToDoListModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+    <End Type="DBToDoListModel.tblTask" Role="tblTask" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tblTask">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

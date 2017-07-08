@@ -12,7 +12,7 @@
           <Property Name="TaskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID" Type="int" />
           <Property Name="Title" Type="nvarchar(max)" />
-          <Property Name="Task" Type="nvarchar(max)" />
+          <Property Name="TaskDetail" Type="nvarchar(max)" />
           <Property Name="StartDate" Type="date" />
           <Property Name="StartTime" Type="time" Precision="7" />
           <Property Name="EndDate" Type="date" />
@@ -81,13 +81,13 @@
           <Property Name="TaskID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID" Type="Int32" />
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Task" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TaskDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="StartTime" Type="Time" Precision="7" />
           <Property Name="EndDate" Type="DateTime" Precision="0" />
           <Property Name="EndTime" Type="Time" Precision="7" />
-          <NavigationProperty Name="tblUser" Relationship="DBToDoListModel.FK__tblTasks__ID__0519C6AF" FromRole="tblTask" ToRole="tblUser" />
           <Property Name="Completed" Type="Int32" />
+          <NavigationProperty Name="tblUser" Relationship="DBToDoListModel.FK__tblTasks__ID__0519C6AF" FromRole="tblTask" ToRole="tblUser" />
         </EntityType>
         <Association Name="FK__tblTasks__ID__0519C6AF">
           <End Type="DBToDoListModel.tblUser" Role="tblUser" Multiplicity="0..1" />
@@ -127,7 +127,7 @@
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="TaskDetail" ColumnName="TaskDetail" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />

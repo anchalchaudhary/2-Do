@@ -34,11 +34,11 @@
             url: "/Account/Login",
             data: data,
             success: function (response) {
-                //debugger
-                if (response == "Not logged in")
-                    window.location.href = "/Account/Login";
-                else if (response == "Logged in")
-                    window.location.href = "/Account/Index";
+                debugger
+                if (response == "false")
+                    window.location.replace = "/Account/Login";
+                else if (response == "true")
+                    window.location.replace = "/NewTask/AddNewTask";
             }
         })
     }

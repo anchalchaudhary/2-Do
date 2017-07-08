@@ -17,7 +17,7 @@ namespace ToDoList.Models
         public int TaskID { get; set; }
         public Nullable<int> ID { get; set; }
         public string Title { get; set; }
-        public string Task { get; set; }
+        public string TaskDetail { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.TimeSpan> StartTime { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }

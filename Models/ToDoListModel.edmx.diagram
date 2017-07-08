@@ -4,9 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b1995365a9644edf8cdc1eb68827c50f" Name="Diagram1" ZoomLevel="98">
+      <Diagram DiagramId="b1995365a9644edf8cdc1eb68827c50f" Name="Diagram1" ZoomLevel="97">
         <EntityTypeShape EntityType="DBToDoListModel.tblUser" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBToDoListModel.tblTask" Width="1.5" PointX="3" PointY="5.375" />
+        <EntityTypeShape EntityType="DBToDoListModel.tblTask" Width="1.5" PointX="0.5" PointY="5.625" />
         <AssociationConnector Association="DBToDoListModel.FK__tblTasks__ID__0519C6AF" />
       </Diagram>
     </edmx:Diagrams>
