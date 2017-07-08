@@ -4,7 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DBToDoListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DBToDoListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblTasks">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Task" Type="nvarchar(max)" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="Completed" Type="int" />
+        </EntityType>
         <EntityType Name="tblUsers">
           <Key>
             <PropertyRef Name="ID" />
@@ -16,11 +30,27 @@
           <Property Name="Password" Type="nvarchar(max)" />
           <Property Name="Activated" Type="int" />
         </EntityType>
+        <Association Name="FK__tblTasks__ID__0519C6AF">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="0..1" />
+          <End Role="tblTasks" Type="Self.tblTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblTasks">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DBToDoListModelStoreContainer">
+          <EntitySet Name="tblTasks" EntityType="Self.tblTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblTasks__ID__0519C6AF" Association="Self.FK__tblTasks__ID__0519C6AF">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblTasks" EntitySet="tblTasks" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBToDoListModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -34,10 +64,43 @@
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Activated" Type="Int32" />
+          <NavigationProperty Name="tblTasks" Relationship="DBToDoListModel.FK__tblTasks__ID__0519C6AF" FromRole="tblUser" ToRole="tblTask" />
         </EntityType>
         <EntityContainer Name="DBToDoListEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="tblTasks" EntityType="DBToDoListModel.tblTask" />
+          <AssociationSet Name="FK__tblTasks__ID__0519C6AF" Association="DBToDoListModel.FK__tblTasks__ID__0519C6AF">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblTask" EntitySet="tblTasks" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tblTask">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Task" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <NavigationProperty Name="tblUser" Relationship="DBToDoListModel.FK__tblTasks__ID__0519C6AF" FromRole="tblTask" ToRole="tblUser" />
+          <Property Name="Completed" Type="Int32" />
+        </EntityType>
+        <Association Name="FK__tblTasks__ID__0519C6AF">
+          <End Type="DBToDoListModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+          <End Type="DBToDoListModel.tblTask" Role="tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -53,6 +116,21 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Activated" ColumnName="Activated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTasks">
+            <EntityTypeMapping TypeName="DBToDoListModel.tblTask">
+              <MappingFragment StoreEntitySet="tblTasks">
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

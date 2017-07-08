@@ -26,5 +26,6 @@ namespace ToDoList.Models
         }
     
         public virtual DbSet<tblUser> tblUsers { get; set; }
+        public virtual DbSet<tblTask> tblTasks { get; set; }
     }
 }
