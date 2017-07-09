@@ -5,7 +5,7 @@
 
 <h2>Login</h2>
 <div class="container">
-    <form id="LoginForm">
+    @*<form id="LoginForm">
         <div class="form-group">
             <div class="col-md-12">
                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Your email here..." })
@@ -33,13 +33,30 @@
             type: "POST",
             url: "/Account/Login",
             data: data,
-            success: function (response) {
-                debugger
-                if (response == "false")
-                    window.location.replace = "/Account/Login";
-                else if (response == "true")
-                    window.location.replace = "/NewTask/AddNewTask";
-            }
         })
     }
-</script>
+</script>*@
+    @if (Session["UserID"] != null)
+    { Session["UserID"] = null; }
+
+
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Your email here..." })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Your password here..." })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-primary" value="LOGIN" />
+            </div>
+        </div>
+    }

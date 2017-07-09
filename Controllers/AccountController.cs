@@ -57,28 +57,34 @@ namespace ToDoList.Controllers
         }
         public ActionResult Login()
         {
+            Session["UserID"] = null;
+            Session["Name"] = null;
             return View();
         }
         [HttpPost]
-        public JsonResult Login(User model)
+        public ActionResult Login(User model)
         {
+
+            Session["UserID"] = null;
+            Session["Name"] = null;
+
             string hashedPassword = Encryption.Encrypt(model.Password);
-            string result = "false";
+            //string result = "false";
             tblUser objtblUser = db.tblUsers.SingleOrDefault(x => x.Email == model.Email && x.Activated == 1 && x.Password == hashedPassword);
             if(objtblUser!=null)
             {
                 Session["UserID"] = objtblUser.ID;
                 Session["Name"] = objtblUser.Name;
-                result = "true";
+
+                return RedirectToAction("AddNewTask", "NewTask");
             }
 
-            return Json(result,JsonRequestBehavior.AllowGet);
+            return View(model);
         }
         public ActionResult Logout()
         {
-
-            Session.Clear();
-            Session.Abandon();
+            Session["UserID"] = null;
+            Session["Name"] = null;
 
             return RedirectToAction("Login");
 
