@@ -60,5 +60,19 @@ namespace ToDoList.Controllers
             }
                 return Json("Success", JsonRequestBehavior.AllowGet);
         }
+        public JsonResult DeleteTask(int TaskID)
+        {
+            bool result = false;
+            tblTask objtblTask = db.tblTasks.SingleOrDefault(x => x.TaskID == TaskID);
+            if (objtblTask != null)
+            {
+                result = true;
+                db.tblTasks.Remove(objtblTask);
+
+                db.SaveChanges();
+
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

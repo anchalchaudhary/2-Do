@@ -99,8 +99,9 @@
         $.ajax({
             type: "POST",
             url: "/MyTasks/DeleteTask",
-            data: { ID: data },
-            success: function (response) {
+            data: { TaskID: data },
+            success: function (result) {
+                $("#DeleteModal").modal('hide');
                 alert("Deleted");
             }
         })
