@@ -15,14 +15,10 @@ namespace ToDoList.Controllers
         {
             return View();
         }
-        //public ActionResult ViewTask()
-        //{
-        //    return View();
-        //}
         public ActionResult ViewTask(Task model)
         {
             int loggedinUserID = Convert.ToInt32(Session["UserID"]);
-            List<Task> taskList = db.tblTasks.Where(x => x.Completed == 0 && x.ID == loggedinUserID).Select(x => new Task
+            List<Task> taskList = db.tblTasks.Where(x => x.ID == loggedinUserID).Select(x => new Task
             {
                 TaskID = x.TaskID,
                 Title = x.Title,
@@ -52,6 +48,17 @@ namespace ToDoList.Controllers
             ViewBag.RequiredTaskDetails = requiredTaskDetails;
 
             return PartialView("TaskDetailsPartial");
+        }
+
+        public JsonResult CompletedTask(int TaskID)
+        {
+            tblTask objtblTask = db.tblTasks.SingleOrDefault(x => x.Completed == 0 && x.TaskID == TaskID);
+            if (objtblTask != null)
+            {
+                objtblTask.Completed = 1;
+                db.SaveChanges();
+            }
+                return Json("Success", JsonRequestBehavior.AllowGet);
         }
     }
 }

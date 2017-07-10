@@ -78,34 +78,31 @@
 
     //}
 
-    //var Completed = function () {
-    //    var data = $("#hiddenTaskID").val();
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/MyTasks/CompletedTask",
-    //        data: { TaskID: data }
-    //    })
-    //}
+    var Completed = function (TaskID) {
+        $.ajax({
+            type: "POST",
+            url: "/MyTasks/CompletedTask",
+            data: { TaskID: TaskID },
+            success: function (response) {
+                alert("Task marked as Completed");
+            }
+        })
+    }
 
-    //var ConfirmDelete = function (TaskID) {
-    //    $("#hiddenNameID").val(TaskID);
-    //    $("#DeleteModal").modal('show');
-    //}
+    var ConfirmDelete = function (TaskID) {
+        $("#hiddenTaskID").val(TaskID);
+        $("#DeleteModal").modal('show');
+    }
 
-    //var Delete = function () {
-    //    var data = $("#hiddenTaskID").val();
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/MyTasks/DeleteTask",
-    //        data: { ID: data },
-    //        success: function (result) {
-
-    //        }
-    //    })
-    //}
+    var Delete = function () {
+        var data = $("#hiddenTaskID").val();
+        $.ajax({
+            type: "POST",
+            url: "/MyTasks/DeleteTask",
+            data: { ID: data },
+            success: function (response) {
+                alert("Deleted");
+            }
+        })
+    }
 </script>
-
-
-
-
-
