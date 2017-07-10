@@ -1,0 +1,111 @@
+﻿@model ToDoList.Models.Task
+@{
+    ViewBag.Title = "ViewTask";
+}
+
+<h2>View Tasks</h2>
+
+<table class="table table-condensed">
+    <tr>
+        <th>Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+    </tr>
+    <tbody>
+        @if (ViewBag.TaskList != null)
+        {
+            foreach (var item in ViewBag.TaskList)
+            {
+                <tr id="row_@item.TaskID">
+                    <td>@item.Title</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td><a class="btn" href="#" onclick="View(@item.TaskID)"><i class="glyphicon glyphicon-eye-open"></i></a></td>
+                    <td><a class="btn" href="#" onclick="Edit(@item.TaskID)"><i class="glyphicon glyphicon-edit"></i></a></td>
+                    <td><a class="btn" href="#" onclick="Completed(@item.TaskID)"><i class="glyphicon glyphicon-check"</a></td>
+                    <td><a class="btn btn-danger" href="#" onclick="ConfirmDelete(@item.TaskID)"><i class="glyphicon glyphicon-trash"></i></a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<input type="hidden" id="hiddenTaskID" />
+
+<div class="modal fade" id="ShowTaskDetailsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="ShowTaskDetailsModalTitle">Task Details</h4>
+            </div>
+            <div class="modal-body" id="ShowTaskDetailsModalBody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DeleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" onclick=$("#DeleteModal").modal("hide")>&times;</a>
+                <h4 class="modal-title">Confirm Delete</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Are you sure?</h3>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" onclick=$("#DeleteModal").modal("hide")>Cancel</a>
+                <a href="#" class="btn btn-success" onclick="Delete()">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var View = function (TaskID) {
+        var url = "/MyTasks/ViewTaskDetails?TaskID=" + TaskID;
+        $("#ShowTaskDetailsModalBody").load(url, function () {
+            $("#ShowTaskDetailsModal").modal("show");
+        })
+    }
+
+    //var Edit = function () {
+
+    //}
+
+    //var Completed = function () {
+    //    var data = $("#hiddenTaskID").val();
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/MyTasks/CompletedTask",
+    //        data: { TaskID: data }
+    //    })
+    //}
+
+    //var ConfirmDelete = function (TaskID) {
+    //    $("#hiddenNameID").val(TaskID);
+    //    $("#DeleteModal").modal('show');
+    //}
+
+    //var Delete = function () {
+    //    var data = $("#hiddenTaskID").val();
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/MyTasks/DeleteTask",
+    //        data: { ID: data },
+    //        success: function (result) {
+
+    //        }
+    //    })
+    //}
+</script>
+
+
+
+
+

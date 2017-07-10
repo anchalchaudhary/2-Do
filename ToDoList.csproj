@@ -220,6 +220,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MyTasksController.cs" />
     <Compile Include="Controllers\NewTaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -272,6 +273,8 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\NewTask\Index.cshtml" />
     <Content Include="Views\NewTask\AddNewTask.cshtml" />
+    <Content Include="Views\MyTasks\ViewTask.cshtml" />
+    <Content Include="Views\MyTasks\TaskDetailsPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -281,6 +284,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ViewTasks\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

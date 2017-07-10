@@ -1,0 +1,33 @@
+﻿<table class="table table-condensed">
+    @if (ViewBag.RequiredTaskDetails != null)
+    {
+
+        foreach (var item in ViewBag.RequiredTaskDetails)
+        {
+            <tr>
+                <td><b>Title</b></td>
+                <td>@item.Title</td>
+            </tr>
+            <tr>
+                <td><b>Task Details</b></td>
+                <td>@item.TaskDetail</td>
+            </tr>
+            <tr>
+                <td><b>Start Date</b></td>
+                <td>@item.StartDate</td>
+            </tr>
+            <tr>
+                <td><b>Start Time</b></td>
+                <td>@item.StartTime</td>
+            </tr>
+            <tr>
+                <td><b>End Date</b></td>
+                <td>@item.EndDate</td>
+            </tr>
+            <tr>
+                <td><b>End Time</b></td>
+                <td>@item.EndTime</td>
+            </tr>
+        }
+    }
+</table>
