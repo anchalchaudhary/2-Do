@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DBToDoListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblPriority">
+          <Key>
+            <PropertyRef Name="PriorityID" />
+          </Key>
+          <Property Name="PriorityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Priority" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="tblTasks">
           <Key>
             <PropertyRef Name="TaskID" />
@@ -18,6 +25,7 @@
           <Property Name="EndDate" Type="date" />
           <Property Name="EndTime" Type="time" Precision="7" />
           <Property Name="Completed" Type="int" />
+          <Property Name="PriorityID" Type="int" />
         </EntityType>
         <EntityType Name="tblUsers">
           <Key>
@@ -30,23 +38,24 @@
           <Property Name="Password" Type="nvarchar(max)" />
           <Property Name="Activated" Type="int" />
         </EntityType>
-        <Association Name="FK__tblTasks__ID__0519C6AF">
-          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="0..1" />
+        <Association Name="FK_tblTasks_tblPriority">
+          <End Role="tblPriority" Type="Self.tblPriority" Multiplicity="0..1" />
           <End Role="tblTasks" Type="Self.tblTasks" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblUsers">
-              <PropertyRef Name="ID" />
+            <Principal Role="tblPriority">
+              <PropertyRef Name="PriorityID" />
             </Principal>
             <Dependent Role="tblTasks">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="PriorityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DBToDoListModelStoreContainer">
+          <EntitySet Name="tblPriority" EntityType="Self.tblPriority" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTasks" EntityType="Self.tblTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__tblTasks__ID__0519C6AF" Association="Self.FK__tblTasks__ID__0519C6AF">
-            <End Role="tblUsers" EntitySet="tblUsers" />
+          <AssociationSet Name="FK_tblTasks_tblPriority" Association="Self.FK_tblTasks_tblPriority">
+            <End Role="tblPriority" EntitySet="tblPriority" />
             <End Role="tblTasks" EntitySet="tblTasks" />
           </AssociationSet>
         </EntityContainer>
@@ -73,6 +82,11 @@
             <End Role="tblUser" EntitySet="tblUsers" />
             <End Role="tblTask" EntitySet="tblTasks" />
           </AssociationSet>
+          <EntitySet Name="tblPriorities" EntityType="DBToDoListModel.tblPriority" />
+          <AssociationSet Name="FK_tblTasks_tblPriority" Association="DBToDoListModel.FK_tblTasks_tblPriority">
+            <End Role="tblPriority" EntitySet="tblPriorities" />
+            <End Role="tblTask" EntitySet="tblTasks" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="tblTask">
           <Key>
@@ -88,6 +102,8 @@
           <Property Name="EndTime" Type="Time" Precision="7" />
           <Property Name="Completed" Type="Int32" />
           <NavigationProperty Name="tblUser" Relationship="DBToDoListModel.FK__tblTasks__ID__0519C6AF" FromRole="tblTask" ToRole="tblUser" />
+          <Property Name="PriorityID" Type="Int32" />
+          <NavigationProperty Name="tblPriority" Relationship="DBToDoListModel.FK_tblTasks_tblPriority" FromRole="tblTask" ToRole="tblPriority" />
         </EntityType>
         <Association Name="FK__tblTasks__ID__0519C6AF">
           <End Type="DBToDoListModel.tblUser" Role="tblUser" Multiplicity="0..1" />
@@ -98,6 +114,26 @@
             </Principal>
             <Dependent Role="tblTask">
               <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblPriority">
+          <Key>
+            <PropertyRef Name="PriorityID" />
+          </Key>
+          <Property Name="PriorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Priority" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblTasks" Relationship="DBToDoListModel.FK_tblTasks_tblPriority" FromRole="tblPriority" ToRole="tblTask" />
+        </EntityType>
+        <Association Name="FK_tblTasks_tblPriority">
+          <End Type="DBToDoListModel.tblPriority" Role="tblPriority" Multiplicity="0..1" />
+          <End Type="DBToDoListModel.tblTask" Role="tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPriority">
+              <PropertyRef Name="PriorityID" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="PriorityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -122,6 +158,7 @@
           <EntitySetMapping Name="tblTasks">
             <EntityTypeMapping TypeName="DBToDoListModel.tblTask">
               <MappingFragment StoreEntitySet="tblTasks">
+                <ScalarProperty Name="PriorityID" ColumnName="PriorityID" />
                 <ScalarProperty Name="Completed" ColumnName="Completed" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
@@ -131,6 +168,14 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPriorities">
+            <EntityTypeMapping TypeName="DBToDoListModel.tblPriority">
+              <MappingFragment StoreEntitySet="tblPriority">
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="PriorityID" ColumnName="PriorityID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

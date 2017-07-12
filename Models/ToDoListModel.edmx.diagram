@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="DBToDoListModel.tblUser" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBToDoListModel.tblTask" Width="1.5" PointX="0.5" PointY="5.625" />
         <AssociationConnector Association="DBToDoListModel.FK__tblTasks__ID__0519C6AF" />
+        <EntityTypeShape EntityType="DBToDoListModel.tblPriority" Width="1.5" PointX="3.375" PointY="0.75" />
+        <AssociationConnector Association="DBToDoListModel.FK_tblTasks_tblPriority" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

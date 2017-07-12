@@ -19,6 +19,11 @@
       <End Role="tblUser" EntitySet="tblUsers" />
       <End Role="tblTask" EntitySet="tblTasks" />
     </AssociationSet>
+    <EntitySet Name="tblPriorities" EntityType="DBToDoListModel.tblPriority" />
+    <AssociationSet Name="FK_tblTasks_tblPriority" Association="DBToDoListModel.FK_tblTasks_tblPriority">
+      <End Role="tblPriority" EntitySet="tblPriorities" />
+      <End Role="tblTask" EntitySet="tblTasks" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="tblTask">
     <Key>
@@ -34,6 +39,8 @@
     <Property Name="EndTime" Type="Time" Precision="7" />
     <Property Name="Completed" Type="Int32" />
     <NavigationProperty Name="tblUser" Relationship="DBToDoListModel.FK__tblTasks__ID__0519C6AF" FromRole="tblTask" ToRole="tblUser" />
+    <Property Name="PriorityID" Type="Int32" />
+    <NavigationProperty Name="tblPriority" Relationship="DBToDoListModel.FK_tblTasks_tblPriority" FromRole="tblTask" ToRole="tblPriority" />
   </EntityType>
   <Association Name="FK__tblTasks__ID__0519C6AF">
     <End Type="DBToDoListModel.tblUser" Role="tblUser" Multiplicity="0..1" />
@@ -44,6 +51,26 @@
       </Principal>
       <Dependent Role="tblTask">
         <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblPriority">
+    <Key>
+      <PropertyRef Name="PriorityID" />
+    </Key>
+    <Property Name="PriorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Priority" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblTasks" Relationship="DBToDoListModel.FK_tblTasks_tblPriority" FromRole="tblPriority" ToRole="tblTask" />
+  </EntityType>
+  <Association Name="FK_tblTasks_tblPriority">
+    <End Type="DBToDoListModel.tblPriority" Role="tblPriority" Multiplicity="0..1" />
+    <End Type="DBToDoListModel.tblTask" Role="tblTask" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPriority">
+        <PropertyRef Name="PriorityID" />
+      </Principal>
+      <Dependent Role="tblTask">
+        <PropertyRef Name="PriorityID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

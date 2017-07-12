@@ -28,11 +28,19 @@ namespace ToDoList.Controllers
                 Session["UserID"] = null;
                 return RedirectToAction("Login", "Account");
             }
+
+            List<tblPriority> list = db.tblPriorities.ToList();
+            ViewBag.PriorityList = new SelectList(list, "PriorityID", "Priority");
+
             return View();
         }
         [HttpPost]
         public ActionResult AddNewTask(Task model)
         {
+            
+            List<tblPriority> list = db.tblPriorities.ToList();
+            ViewBag.PriorityList = new SelectList(list, "PriorityID", "Priority");
+
             if (Session["UserID"] == null)
             {
                 Session["UserID"] = null;
@@ -40,21 +48,41 @@ namespace ToDoList.Controllers
             }
             else
             {
-                tblTask objtblTask = new tblTask();
-                objtblTask.Title = model.Title;
-                objtblTask.TaskDetail = model.TaskDetail;
-                objtblTask.StartDate = model.StartDate;
-                objtblTask.StartTime = model.StartTime;
-                objtblTask.EndDate = model.EndDate;
-                objtblTask.EndTime = model.EndTime;
-                objtblTask.Completed = 0;
-                objtblTask.ID = Convert.ToInt32(Session["UserID"]);
+                int ID = Convert.ToInt32(Session["UserID"]);
 
-                db.tblTasks.Add(objtblTask);
+                if (model.TaskID > 0) //EDITS THE EXISTING RECORD IN tblTasks
+                {
+                    tblTask objtblTaskUpdated = db.tblTasks.SingleOrDefault(x => x.TaskID == model.TaskID && x.ID == ID);
 
-                db.SaveChanges();
+                    objtblTaskUpdated.Title = model.Title;
+                    objtblTaskUpdated.TaskDetail = model.TaskDetail;
+                    objtblTaskUpdated.StartDate = model.StartDate;
+                    objtblTaskUpdated.StartTime = model.StartTime;
+                    objtblTaskUpdated.EndDate = model.EndDate;
+                    objtblTaskUpdated.EndTime = model.EndTime;
+                    objtblTaskUpdated.Completed = model.Completed;
+                    objtblTaskUpdated.PriorityID = model.PriorityID;
 
-                return View();
+                    db.SaveChanges();
+                }
+                else //ADDS NEW RECORD TO tblTasks
+                {
+                    tblTask objtblTask = new tblTask();
+
+                    objtblTask.Title = model.Title;
+                    objtblTask.TaskDetail = model.TaskDetail;
+                    objtblTask.StartDate = model.StartDate;
+                    objtblTask.StartTime = model.StartTime;
+                    objtblTask.EndDate = model.EndDate;
+                    objtblTask.EndTime = model.EndTime;
+                    objtblTask.Completed = 0;
+                    objtblTask.PriorityID = model.PriorityID;
+                    objtblTask.ID = Convert.ToInt32(Session["UserID"]);
+
+                    db.tblTasks.Add(objtblTask);
+                    db.SaveChanges();
+                }
+                return View(model);
             }
         }
     }

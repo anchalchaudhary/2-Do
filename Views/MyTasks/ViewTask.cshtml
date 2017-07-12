@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "ViewTask";
 }
-
+<div>
+    <a href="/NewTask/AddNewTask">Add new tasks</a>
+</div>
 <h2>View Tasks</h2>
 
 <table class="table table-condensed">
@@ -10,6 +12,9 @@
         <th>Title</th>
         <th>Start Date</th>
         <th>End Date</th>
+        <th>Priority</th>
+        <th>% Completed</th>
+
     </tr>
     <tbody>
         @if (ViewBag.TaskList != null)
@@ -20,9 +25,10 @@
                     <td>@item.Title</td>
                     <td>@item.StartDate</td>
                     <td>@item.EndDate</td>
+                    <td>@item.Priority</td>
+                    <td>@item.Completed</td>
                     <td><a class="btn" href="#" onclick="View(@item.TaskID)"><i class="glyphicon glyphicon-eye-open"></i></a></td>
                     <td><a class="btn" href="#" onclick="Edit(@item.TaskID)"><i class="glyphicon glyphicon-edit"></i></a></td>
-                    <td><a class="btn" href="#" onclick="Completed(@item.TaskID)"><i class="glyphicon glyphicon-check"</a></td>
                     <td><a class="btn btn-danger" href="#" onclick="ConfirmDelete(@item.TaskID)"><i class="glyphicon glyphicon-trash"></i></a></td>
                 </tr>
             }
@@ -49,6 +55,20 @@
     </div>
 </div>
 
+<div class="modal fade" id="EditTaskDetailsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Task</h4>
+            </div>
+            <div class="modal-body" id="EditTaskDetailsModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="DeleteModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -67,6 +87,9 @@
     </div>
 </div>
 <script>
+
+    @*For Viewing Selected Task*@
+
     var View = function (TaskID) {
         var url = "/MyTasks/ViewTaskDetails?TaskID=" + TaskID;
         $("#ShowTaskDetailsModalBody").load(url, function () {
@@ -74,36 +97,34 @@
         })
     }
 
-    //var Edit = function () {
+    @*For Editing Selected Task*@
 
-    //}
-
-    var Completed = function (TaskID) {
-        $.ajax({
-            type: "POST",
-            url: "/MyTasks/CompletedTask",
-            data: { TaskID: TaskID },
-            success: function (response) {
-                alert("Task marked as Completed");
-            }
+    var Edit = function (TaskID) {
+        var url = "/MyTasks/EditTask?TaskID=" + TaskID;
+        $("#EditTaskDetailsModalBody").load(url, function () {
+            $("#EditTaskDetailsModal").modal('show');
         })
     }
 
-    var ConfirmDelete = function (TaskID) {
-        $("#hiddenTaskID").val(TaskID);
-        $("#DeleteModal").modal('show');
-    }
+    @*For Deleting Selected Task*@
+    {
+        var ConfirmDelete = function (TaskID) {
+            $("#hiddenTaskID").val(TaskID);
+            $("#DeleteModal").modal('show');
+        }
 
-    var Delete = function () {
-        var data = $("#hiddenTaskID").val();
-        $.ajax({
-            type: "POST",
-            url: "/MyTasks/DeleteTask",
-            data: { TaskID: data },
-            success: function (result) {
-                $("#DeleteModal").modal('hide');
-                alert("Deleted");
-            }
-        })
+        var Delete = function () {
+            var data = $("#hiddenTaskID").val();
+            $.ajax({
+                type: "POST",
+                url: "/MyTasks/DeleteTask",
+                data: { TaskID: data },
+                success: function (result) {
+                    $("#DeleteModal").modal('hide');
+                    alert("Deleted");
+                    $("#row_" + data).remove();
+                }
+            })
+        }
     }
 </script>

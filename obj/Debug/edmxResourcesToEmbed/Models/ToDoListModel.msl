@@ -16,6 +16,7 @@
     <EntitySetMapping Name="tblTasks">
       <EntityTypeMapping TypeName="DBToDoListModel.tblTask">
         <MappingFragment StoreEntitySet="tblTasks">
+          <ScalarProperty Name="PriorityID" ColumnName="PriorityID" />
           <ScalarProperty Name="Completed" ColumnName="Completed" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
           <ScalarProperty Name="EndDate" ColumnName="EndDate" />
@@ -25,6 +26,14 @@
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPriorities">
+      <EntityTypeMapping TypeName="DBToDoListModel.tblPriority">
+        <MappingFragment StoreEntitySet="tblPriority">
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="PriorityID" ColumnName="PriorityID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

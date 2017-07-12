@@ -16,5 +16,9 @@ namespace ToDoList.Models
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<System.TimeSpan> EndTime { get; set; }
         public Nullable<int> Completed { get; set; }
+        public Nullable<int> PriorityID { get; set; }
+
+        public string Priority { get; set; }
+
     }
 }

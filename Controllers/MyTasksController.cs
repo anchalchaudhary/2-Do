@@ -26,7 +26,9 @@ namespace ToDoList.Controllers
                 StartDate = x.StartDate,
                 StartTime = x.StartTime,
                 EndDate = x.EndDate,
-                EndTime = x.EndTime
+                EndTime = x.EndTime,
+                Completed = x.Completed,
+                Priority = x.tblPriority.Priority
             }).ToList();
 
             ViewBag.TaskList = taskList;
@@ -42,23 +44,37 @@ namespace ToDoList.Controllers
                 StartDate = x.StartDate,
                 StartTime = x.StartTime,
                 EndDate = x.EndDate,
-                EndTime = x.EndTime
+                EndTime = x.EndTime,
+                Completed = x.Completed,
+                Priority = x.tblPriority.Priority
             }).ToList();
 
             ViewBag.RequiredTaskDetails = requiredTaskDetails;
 
             return PartialView("TaskDetailsPartial");
         }
-
-        public JsonResult CompletedTask(int TaskID)
+        public ActionResult EditTask(int TaskID)
         {
-            tblTask objtblTask = db.tblTasks.SingleOrDefault(x => x.Completed == 0 && x.TaskID == TaskID);
-            if (objtblTask != null)
+            Task model = new Task();
+
+            List<tblPriority> list = db.tblPriorities.ToList();
+            ViewBag.PriorityList = new SelectList(list, "PriorityID", "Priority");
+
+            int ID = Convert.ToInt32(Session["UserID"]);
+            if (TaskID > 0)
             {
-                objtblTask.Completed = 1;
-                db.SaveChanges();
+                tblTask objtblTask = db.tblTasks.SingleOrDefault(x => x.TaskID == TaskID && x.ID == ID);
+                model.TaskID = objtblTask.TaskID;
+                model.Title = objtblTask.Title;
+                model.TaskDetail = objtblTask.TaskDetail;
+                model.StartDate = objtblTask.StartDate;
+                model.StartTime = objtblTask.StartTime;
+                model.EndDate = objtblTask.EndDate;
+                model.EndTime = objtblTask.EndTime;
+                model.Completed = objtblTask.Completed;
+                model.PriorityID = objtblTask.PriorityID;
             }
-                return Json("Success", JsonRequestBehavior.AllowGet);
+            return PartialView("EditTaskPartial", model);
         }
         public JsonResult DeleteTask(int TaskID)
         {

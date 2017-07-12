@@ -226,6 +226,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\tblPriority.cs">
+      <DependentUpon>ToDoListModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblTask.cs">
       <DependentUpon>ToDoListModel.tt</DependentUpon>
     </Compile>
@@ -275,6 +278,7 @@
     <Content Include="Views\NewTask\AddNewTask.cshtml" />
     <Content Include="Views\MyTasks\ViewTask.cshtml" />
     <Content Include="Views\MyTasks\TaskDetailsPartial.cshtml" />
+    <Content Include="Views\MyTasks\EditTaskPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

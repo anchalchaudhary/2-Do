@@ -3,7 +3,10 @@
     ViewBag.Title = "AddNewTask";
 }
 
+<div><a href="/MyTasks/ViewTask">View your tasks</a></div>
+
 <h2>Add New Task</h2>
+
 
 @if (Session["UserID"] != null)
 {
@@ -33,6 +36,10 @@
             @Html.TextBoxFor(model => model.EndTime, new { @id = "timepicker", @class = "form-control", @type = "time" })
         </div>
         <div class="form-group">
+            @Html.LabelFor(model => model.Priority, "Priority")
+            @Html.DropDownListFor(model => model.PriorityID, ViewBag.PriorityList as SelectList, "--Select--", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
             <input type="submit" class="btn btn-primary" onclick="NewTask()" value="SAVE" />
         </div>
     </form>
@@ -43,6 +50,13 @@
                 type: "POST",
                 url: "/NewTask/AddNewTask",
                 data: data,
+                success: function(response)
+                {
+                    alert("Task Added");
+
+                    debugger
+                    window.location.reload();
+                }
             })
         }
     </script>

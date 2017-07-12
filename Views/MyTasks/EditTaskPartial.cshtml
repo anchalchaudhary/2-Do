@@ -1,0 +1,59 @@
+﻿@model ToDoList.Models.Task
+<div>
+    <form id="EditTaskForm">
+        @Html.HiddenFor(m => m.TaskID)
+
+        @Html.LabelFor(model => model.Title, "Title")
+        @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+
+        @Html.LabelFor(model => model.TaskDetail, "Task")
+        @Html.TextAreaFor(model => model.TaskDetail, new { @class = "form-control" })
+
+        @Html.LabelFor(model => model.StartDate, "Start Date")
+        @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control datepicker", @type = "date" })
+
+        @Html.LabelFor(model => model.StartTime, "Start Time")
+        @Html.TextBoxFor(model => model.StartTime, new { @id = "timepicker", @class = "form-control", @type = "time" })
+
+        @Html.LabelFor(model => model.EndDate, "End Date")
+        @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control datepicker", @type = "date" })
+
+        @Html.LabelFor(model => model.EndTime, "End Time")
+        @Html.TextBoxFor(model => model.EndTime, new { @id = "timepicker", @class = "form-control", @type = "time" })
+        <div>
+            @Html.LabelFor(model => model.Priority, "Priority")
+            @Html.DropDownListFor(model => model.PriorityID, ViewBag.PriorityList as SelectList, "--Select--", new { @class = "form-control" })
+        </div>
+        <div>
+            <a href="#" id="btnSubmit" class="btn btn-success btn-block">
+                @if (Model.TaskID > 0)
+                {
+                    <span>Update</span>
+                }
+                else
+                {
+                    <span>Save</span>
+                }
+            </a>
+        </div>
+    </form>
+</div>
+<a href="#" class="btn btn-block" onclick="Edit(0)">New</a>
+<script>
+    $(document).ready(function () {
+        $("#btnSubmit").click(function () {
+            var editedData = $("#EditTaskForm").serialize();
+            //alert("Edited")
+            $.ajax({
+                type: "POST",
+                url: "/NewTask/AddNewTask",
+                data: editedData,
+                success: function () {
+                    $("#EditTaskDetailsModal").modal('hide');
+                    window.location.href = "/MyTasks/ViewTask";
+                }
+            })
+        })
+    })
+</script>
+
