@@ -12,9 +12,11 @@
     }
 </style>
 
-@if (Session["UserID"] != null)
+@using (Html.BeginForm("AddNewTask", "NewTask", FormMethod.Post))
 {
-    <form id="AddNewTaskForm">
+    if (Session["UserID"] != null)
+    {
+        @*<form id="AddNewTaskForm">*@
         <div class="form-group">
             @Html.LabelFor(model => model.Title, "Title")
             @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
@@ -48,22 +50,41 @@
             @Html.ValidationMessageFor(model => model.PriorityID, "", new { @class = "error" })
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" onclick="NewTask()" value="SAVE" />
+            <input type="submit" class="btn btn-primary" value="SAVE" />
         </div>
-    </form>
-    <script>
+        if (ViewBag.Javascript == "alert")
+        {
+            <script>alert("Task Added."); </script>
+        }
+        if (ViewBag.StartEndDate == "alert")
+        {
+            <script>alert("Failed adding Task. Enter Valid Dates."); </script>
+
+        }
+        if (ViewBag.StartTime== "alert")
+        {
+            <script>alert("Failed adding Task. Enter Valid Start Time."); </script>
+
+        }
+        if (ViewBag.EndTime == "alert")
+        {
+            <script>alert("Failed adding Task. Enter Valid End Time."); </script>
+
+        }
+    }
+    @*</form>*@
+
+    @*<script>
         var NewTask = function () {
             var data = $("#AddNewTaskForm").serialize();
-            if (!$("#AddNewTaskForm").valid())
-            {
+            if (!$("#AddNewTaskForm").valid()) {
                 return false;
             }
             $.ajax({
                 type: "POST",
                 url: "/NewTask/AddNewTask",
                 data: data,
-                success: function(response)
-                {
+                success: function (response) {
                     alert("Task Added");
 
                     debugger
@@ -71,5 +92,5 @@
                 }
             })
         }
-    </script>
+    </script>*@
 }

@@ -91,15 +91,17 @@
     @*For Viewing Selected Task*@
 
     var View = function (TaskID) {
+        debugger
         var url = "/MyTasks/ViewTaskDetails?TaskID=" + TaskID;
         $("#ShowTaskDetailsModalBody").load(url, function () {
-            $("#ShowTaskDetailsModal").modal("show");
+            $("#ShowTaskDetailsModal").modal('show');
         })
     }
 
     @*For Editing Selected Task*@
 
     var Edit = function (TaskID) {
+        debugger
         var url = "/MyTasks/EditTask?TaskID=" + TaskID;
         $("#EditTaskDetailsModalBody").load(url, function () {
             $("#EditTaskDetailsModal").modal('show');
@@ -108,12 +110,14 @@
 
     @*For Deleting Selected Task*@
     {
+        debugger
         var ConfirmDelete = function (TaskID) {
             $("#hiddenTaskID").val(TaskID);
             $("#DeleteModal").modal('show');
         }
 
         var Delete = function () {
+            debugger
             var data = $("#hiddenTaskID").val();
             $.ajax({
                 type: "POST",

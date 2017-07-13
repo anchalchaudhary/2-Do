@@ -5,24 +5,31 @@
 
         @Html.LabelFor(model => model.Title, "Title")
         @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "error" })
+
 
         @Html.LabelFor(model => model.TaskDetail, "Task")
         @Html.TextAreaFor(model => model.TaskDetail, new { @class = "form-control" })
 
         @Html.LabelFor(model => model.StartDate, "Start Date")
         @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control datepicker", @type = "date" })
+        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "error" })
+
 
         @Html.LabelFor(model => model.StartTime, "Start Time")
         @Html.TextBoxFor(model => model.StartTime, new { @id = "timepicker", @class = "form-control", @type = "time" })
 
         @Html.LabelFor(model => model.EndDate, "End Date")
         @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control datepicker", @type = "date" })
+        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "error" })
+
 
         @Html.LabelFor(model => model.EndTime, "End Time")
         @Html.TextBoxFor(model => model.EndTime, new { @id = "timepicker", @class = "form-control", @type = "time" })
         <div>
             @Html.LabelFor(model => model.Priority, "Priority")
             @Html.DropDownListFor(model => model.PriorityID, ViewBag.PriorityList as SelectList, "--Select--", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PriorityID, "", new { @class = "error" })
         </div>
         <div>
             <a href="#" id="btnSubmit" class="btn btn-success btn-block">
@@ -30,19 +37,21 @@
                 {
                     <span>Update</span>
                 }
-                else
-                {
-                    <span>Save</span>
-                }
             </a>
         </div>
     </form>
 </div>
-<a href="#" class="btn btn-block" onclick="Edit(0)">New</a>
+<a href="/NewTask/AddNewTask" class="btn btn-block">New</a>
 <script>
     $(document).ready(function () {
         $("#btnSubmit").click(function () {
             var editedData = $("#EditTaskForm").serialize();
+
+            if (!$("#EditTaskForm").valid())
+            {
+                return false;
+            }
+
             //alert("Edited")
             $.ajax({
                 type: "POST",
