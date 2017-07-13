@@ -2,30 +2,38 @@
 @{
     ViewBag.Title = "Registration";
 }
-
+<style>
+    .error {
+        color: red;
+    }
+</style>
 <h2>Registration</h2>
 <form id="RegistrationForm">
     <div class="form-group">
         <div class="col-md-12">
             @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Your name here..." })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "error" })
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-12">
             @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @placeholder = "Your username here..." })
+            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "error" })
         </div>
     </div>
-    
+
     <div class="form-group">
         <div class="col-md-12">
             @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Your Email here..." })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "error" })
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-12">
             @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Your password here..." })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "error" })
         </div>
     </div>
 
@@ -35,10 +43,17 @@
         </div>
     </div>
 </form>
+<div>
+    <a href="/Account/Login" class="btn-link">Sign in</a>
+</div>
 <script>
     var RegisterUser = function () {
-    debugger
+        debugger
         var data = $("#RegistrationForm").serialize();
+
+        if (!$("#RegistrationForm").valid()) {
+            return false;
+        }
         $.ajax({
             type: "POST",
             url: "/Account/Registration",

@@ -4,8 +4,8 @@
 }
 
 <h2>Login</h2>
-<div class="container">
-    @*<form id="LoginForm">
+@*<div class="container">
+    <form id="LoginForm">
         <div class="form-group">
             <div class="col-md-12">
                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Your email here..." })
@@ -36,6 +36,13 @@
         })
     }
 </script>*@
+
+
+<style>
+    .error {
+        color: red;
+    }
+</style>
     @if (Session["UserID"] != null)
     { Session["UserID"] = null; }
 
@@ -45,12 +52,14 @@
         <div class="form-group">
             <div class="col-md-12">
                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Your email here..." })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "error" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-12">
                 @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Your password here..." })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "error" })
             </div>
         </div>
 
@@ -58,5 +67,8 @@
             <div class="col-md-12">
                 <input type="submit" class="btn btn-primary" value="LOGIN" />
             </div>
+        </div>
+        <div>
+            <a href="/Account/Registration" class="btn-link">Sign up</a>
         </div>
     }
