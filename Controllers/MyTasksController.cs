@@ -17,6 +17,11 @@ namespace ToDoList.Controllers
         }
         public ActionResult ViewTask(Task model)
         {
+            if(Session["UserID"]==null)
+            {
+                Session["Name"] = null;
+                return RedirectToAction("Login", "Account");
+            }
             int loggedinUserID = Convert.ToInt32(Session["UserID"]);
             List<Task> taskList = db.tblTasks.Where(x => x.ID == loggedinUserID).Select(x => new Task
             {

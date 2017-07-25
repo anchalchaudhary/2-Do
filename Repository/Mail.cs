@@ -19,7 +19,7 @@ namespace ToDoList.Repository
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
                 smtp.EnableSsl = true;
-                NetworkCredential NetworkCred = new NetworkCredential("anchal.chaudhary329@gmail.com", "nothingtobefoundhere9876");
+                NetworkCredential NetworkCred = new NetworkCredential("qwerty@somemail.com", "********");
                 smtp.UseDefaultCredentials = true;
                 smtp.Credentials = NetworkCred;
                 smtp.Port = 587;

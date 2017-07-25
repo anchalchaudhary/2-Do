@@ -72,25 +72,4 @@
 
         }
     }
-    @*</form>*@
-
-    @*<script>
-        var NewTask = function () {
-            var data = $("#AddNewTaskForm").serialize();
-            if (!$("#AddNewTaskForm").valid()) {
-                return false;
-            }
-            $.ajax({
-                type: "POST",
-                url: "/NewTask/AddNewTask",
-                data: data,
-                success: function (response) {
-                    alert("Task Added");
-
-                    debugger
-                    window.location.reload();
-                }
-            })
-        }
-    </script>*@
 }

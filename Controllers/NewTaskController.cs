@@ -25,7 +25,7 @@ namespace ToDoList.Controllers
         {
             if (Session["UserID"] == null)
             {
-                Session["UserID"] = null;
+                Session["Name"] = null;
                 return RedirectToAction("Login", "Account");
             }
 
@@ -43,7 +43,7 @@ namespace ToDoList.Controllers
 
             if (Session["UserID"] == null)
             {
-                Session["UserID"] = null;
+                Session["Name"] = null;
                 return RedirectToAction("Login", "Account");
             }
             else
